@@ -1,3 +1,40 @@
+# Hermes Agent on Dockhold
+
+[Hermes Agent](https://github.com/NousResearch/hermes-agent) by [Nous Research](https://nousresearch.com/) is an AI agent that runs on a server, connects to Telegram, Discord, Slack and other chat apps, and keeps its memory and skills between conversations. This repository is the [Hermes Agent template by praveen-ks-2001](https://github.com/praveen-ks-2001/hermes-agent-template), with one start script added so it runs on [Dockhold](https://dockhold.eu): an always-on HTTPS address, its data kept on App storage across restarts and deploys, and the admin password kept in Dockhold's Secrets. The admin panel, the Hermes dashboard and everything else are the template's own.
+
+[![Deploy on Dockhold](https://dockhold.eu/button.svg)](https://app.dockhold.eu/new?repo=https://github.com/dockhold/hermes-agent-starter&name=hermes-agent-starter&ref=button-hermes-agent)
+
+## Deploy on Dockhold
+
+1. Open the [Deploy link](https://app.dockhold.eu/new?repo=https://github.com/dockhold/hermes-agent-starter&name=hermes-agent-starter&ref=button-hermes-agent) and sign in if asked.
+2. Under **App size**, pick **1 GB**. Under **App storage**, pick **10 GB**. This app needs a paid plan: its image is larger than the free plan allows, and Hermes uses about half a gigabyte of memory before its first message. See [pricing](https://dockhold.eu/pricing).
+3. Under **Environment**, in the **Secrets** list, click **New secret**. Give it a name that belongs to this app, for example `hermes-agent-admin-password`, and a password of at least 12 characters. Tick it and set its **Env var name** to `ADMIN_PASSWORD`. Secrets are shared across your apps by name, so a name of its own keeps this password separate from your other apps.
+4. Click **Deploy** and wait until the app shows as running.
+5. Open the app's URL and sign in as `admin` with that password. The setup page opens.
+6. Pick a model provider, paste its API key and enter a model ([OpenRouter](https://openrouter.ai/) has free models). Tick **Telegram**, paste the bot token from [@BotFather](https://t.me/BotFather), and click **Save & Start**.
+7. Send your bot a message. The request appears under **Users** in the admin panel. Click **Approve**, and the bot answers you from then on.
+
+If the app refuses to start, its page shows one line saying what is missing. App storage is on the app's **Size** tab. Secrets are attached on its **Variables** tab, and their values are edited under **Secrets** in the dashboard sidebar. Fix it and click **Restart**.
+
+### What is different from the template
+
+- `dockhold/entrypoint.sh` runs before the template's `start.sh`. It refuses to start without App storage. It refuses a missing or short `ADMIN_PASSWORD`, where the template would generate one and print it to the log. It passes the app's own address to Hermes, so MCP tool sign-ins return to the app: the template reads that address from `RAILWAY_PUBLIC_DOMAIN`, and the script fills it from `DOCKHOLD_APP_HOSTNAME`.
+- The two lines at the end of the `Dockerfile` add that script. Nothing else in the template is changed.
+- Everything Hermes keeps is under `/data/.hermes`, which is App storage. Config, pairings, chat history, skills and memory survive restarts and deploys. A deploy stops the running app before it starts the new one, so the bot is offline for a few seconds.
+- App storage is not backed up. Download a backup from the admin panel before an upgrade.
+
+### Two ways to use it
+
+**Run it as it is.** Deploy this repository with the button above. The app stays on the version it was built with; **Restart** starts the same build again.
+
+**Run your own copy.** Click **Use this template** on GitHub, connect your copy in Dockhold and deploy it. From then on every push builds and starts the new version. `dockhold/smoke.sh` tests the image the way Dockhold runs it, and the weekly check in `.github/workflows/dockhold-upstream.yml` opens an issue when the upstream template has a new release to merge. `dockhold/CHANGELOG.md` records each version this starter moves to.
+
+---
+
+The rest of this page is the template's own README, unchanged. Its deploy steps are for Railway. On Dockhold, use the steps above: where it says Railway variables, use the app's **Variables** tab and **Secrets**, and its `/data` volume is App storage.
+
+---
+
 # Hermes Agent — Railway Template
 
 Deploy [Hermes Agent](https://github.com/NousResearch/hermes-agent) on [Railway](https://railway.app) with a web-based admin dashboard for configuration, gateway management, and user pairing.

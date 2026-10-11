@@ -1,0 +1,30 @@
+name: Dockhold check
+# Build the image and run the Dockhold smoke test on every push to main and
+# every pull request. A newer run of the same ref cancels an older one.
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: dockhold-check-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Build the image
+        run: docker build -t hermes-agent-starter:test .
+      - name: Image size
+        # The README says the app needs a paid plan, partly because of its
+        # image size. Print the number that claim rests on.
+        run: |
+          set -eu
+          uncompressed=$(docker image inspect hermes-agent-starter:test --format '{{.Size}}')
+          compressed=$(docker save hermes-agent-starter:test | gzip -1 | wc -c)
+          echo "uncompressed: $((uncompressed / 1048576)) MiB ($uncompressed bytes)"
+          echo "gzip -1 of docker save: $((compressed / 1048576)) MiB ($compressed bytes)"
+      - name: Smoke test
+        run: dockhold/smoke.sh hermes-agent-starter:test

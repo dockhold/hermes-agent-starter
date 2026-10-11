@@ -214,3 +214,8 @@ ENV HERMES_TUI_DIR=/opt/hermes-agent/ui-tui
 # Railway's SIGTERM cleanly terminates the entire tree, not just start.sh.
 ENTRYPOINT ["/usr/bin/tini", "-g", "--"]
 CMD ["/app/start.sh"]
+
+# Dockhold: check App storage and the admin password, give Hermes the app's
+# public address, then run start.sh above. See dockhold/entrypoint.sh.
+COPY dockhold/entrypoint.sh /app/dockhold-entrypoint.sh
+CMD ["/app/dockhold-entrypoint.sh"]
