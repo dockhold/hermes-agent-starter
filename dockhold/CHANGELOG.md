@@ -13,6 +13,7 @@ This repository is about running on Dockhold only:
 - `README.md` is this starter's own. The upstream template's README stays in its repository, linked from Credits.
 - Removed the upstream deploy config for another host.
 - Admin panel: removed the "Other Templates" page, and reworded the few hints, the sign-in footnote and the pairing message that named another host. No change to how anything works.
+- Admin panel: the setup guide now says to leave Allowed User IDs empty and approve people by pairing, instead of entering `*` to let everyone in. "Report issue" links go to this repository. Backups are labelled `hermes-agent-template`.
 
 No data migration.
 

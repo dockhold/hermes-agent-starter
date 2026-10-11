@@ -1028,7 +1028,7 @@
     <a href="https://github.com/praveen-ks-2001" target="_blank" rel="noopener">Heimdall</a>
   </div>
   <div class="header-spacer"></div>
-  <a class="header-issue-link" href="https://github.com/praveen-ks-2001/hermes-agent-template/issues" target="_blank" rel="noopener">⚠ Report issue</a>
+  <a class="header-issue-link" href="https://github.com/dockhold/hermes-agent-starter/issues" target="_blank" rel="noopener">⚠ Report issue</a>
   <button class="header-btn" @click="restartGateway()">↺ Restart</button>
 </div>
 
@@ -1888,8 +1888,8 @@
               Go to the <strong>Setup</strong> page, enable <strong>Telegram</strong> under Messaging Channels, and paste the Bot Token.
             </li>
             <li>
-              For <strong>Allowed User IDs</strong>, if you're just starting out, enter <code>*</code> to allow all users.
-              <span class="step-note">You can restrict access later by specifying individual Telegram user IDs.</span>
+              Leave <strong>Allowed User IDs</strong> empty. Anyone new who messages the bot gets a pairing code, and you approve them under <strong>Users</strong>.
+              <span class="step-note">The agent can run commands, so only let in people you trust. You can also list Telegram user IDs here.</span>
             </li>
             <li>
               Click <strong>Save & Start</strong> on the bottom right — your Hermes Agent is now live!
@@ -1899,7 +1899,7 @@
 
         <!-- Issue callout -->
         <div class="guide-callout">
-          Facing an issue or something not working as expected? <a href="https://github.com/praveen-ks-2001/hermes-agent-template/issues" target="_blank" rel="noopener">Create a GitHub issue</a> and we'll help you out.
+          Facing an issue or something not working as expected? <a href="https://github.com/dockhold/hermes-agent-starter/issues" target="_blank" rel="noopener">Create a GitHub issue</a> and we'll help you out.
         </div>
 
       </div>
@@ -1916,7 +1916,7 @@
         <div style="background:rgba(98,114,255,0.06);border:1px solid rgba(98,114,255,0.2);border-radius:8px;padding:12px 15px;margin-bottom:20px;font-size:13px;color:var(--text-dim);line-height:1.6;">
           <div style="margin-bottom:8px;">
             <code>main</code> always ships the <strong style="color:var(--text);">latest</strong> release — that is what you get by default.
-            To stay on a particular Hermes version, deploy that release's branch.
+            To stay on a particular Hermes version, keep your own copy of this starter at that version.
             Reverting the branch does not undo changes already made to the persistent volume; restore a pre-upgrade backup if its data must also be rolled back.
           </div>
           <div>
@@ -2098,7 +2098,7 @@
 
           <div class="changelog-group">Changes to support upstream updates</div>
           <ul class="changelog-list">
-            <li><strong>The Hermes dashboard keeps working — and MCP tool sign-ins now work too.</strong> Hermes now treats a deployment that advertises a public web address as one that must have its own password, and shuts the dashboard down at startup when it doesn't. Where that address is filled in automatically, Chat, Keys, Kanban and every other Hermes page would have shown &ldquo;Dashboard unavailable&rdquo; on every deploy — while this admin panel and the health check stayed perfectly green. That same address is what Hermes uses to send you back after approving an MCP tool login, so simply dropping it would have quietly broken those. Instead, the Hermes dashboard now has its own password — set automatically from your admin login — and this template signs in for you behind the scenes. <strong>You still sign in once, exactly as before.</strong></li>
+            <li><strong>The Hermes dashboard keeps working, and MCP tool sign-ins now work too.</strong> Hermes now treats a deployment that advertises a public web address as one that must have its own password, and shuts the dashboard down at startup when it doesn't. Where that address is filled in automatically, Chat, Keys, Kanban and every other Hermes page would have shown &ldquo;Dashboard unavailable&rdquo; on every deploy, while this admin panel and the health check stayed perfectly green. That same address is what Hermes uses to send you back after approving an MCP tool login, so simply dropping it would have quietly broken those. Instead, the Hermes dashboard now has its own password — set automatically from your admin login — and this template signs in for you behind the scenes. <strong>You still sign in once, exactly as before.</strong></li>
             <li><strong>The sign-in page moved to <code>/setup/login</code>.</strong> Old links still work. If you had bookmarked the login page directly, it will redirect you.</li>
             <li><strong>Restoring a backup works again.</strong> Hermes started leaving three more folders out of backups. Our safety check didn't know that and could refuse a perfectly good archive with &ldquo;couldn't create a complete safety snapshot&rdquo;, blocking the restore entirely.</li>
             <li><strong>The bot can no longer switch itself off.</strong> Hermes relaxed the rule that stopped the agent shutting down its own gateway, so a stray instruction could take the bot offline. This template now identifies itself as the supervisor, which restores the block.</li>

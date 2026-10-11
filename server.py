@@ -1591,7 +1591,7 @@ button:hover{background:#7b8fff;border-color:#7b8fff}
     <input id="password" name="password" type="password" autocomplete="current-password" required>
     <button type="submit">Sign in</button>
   </form>
-  <p class="footnote">Credentials are the <code>ADMIN_USERNAME</code> and <code>ADMIN_PASSWORD</code><br>app variables.</p>
+  <p class="footnote">The username is <code>ADMIN_USERNAME</code> (default <code>admin</code>),<br>the password is the <code>ADMIN_PASSWORD</code> secret.</p>
 </div>
 </body></html>"""
 
@@ -3313,7 +3313,7 @@ async def _manual_backup_run(job_id: str) -> None:
                     zf.writestr("template_manifest.json", json.dumps({
                         "hermes_version": version,
                         "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                        "template": "hermes-agent-railway-template",
+                        "template": "hermes-agent-template",
                     }))
             await asyncio.to_thread(add_manifest)
         except Exception as exc:
@@ -3499,7 +3499,7 @@ async def api_backup_download(request: Request) -> Response:
                 zf.writestr("template_manifest.json", json.dumps({
                     "hermes_version": version,
                     "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                    "template": "hermes-agent-railway-template",
+                    "template": "hermes-agent-template",
                 }))
         except Exception:
             pass
