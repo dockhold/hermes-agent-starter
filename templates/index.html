@@ -1084,10 +1084,6 @@
       <span class="nav-icon">📖</span>
       <span>How to Setup</span>
     </div>
-    <div class="nav-item" :class="{active: page==='templates'}" @click="page='templates'">
-      <span class="nav-icon">🚀</span>
-      <span>Other Templates</span>
-    </div>
     <div class="nav-item" :class="{active: page==='changelog'}" @click="page='changelog'">
       <span class="nav-icon">🆕</span>
       <span>What's New</span>
@@ -1668,7 +1664,7 @@
         </template>
 
         <div class="section-label" style="margin-top:20px;">Approved Users</div>
-        <div class="hint" style="margin-bottom:10px;">Revoke removes the pairing approval. Other Hermes or Railway access rules may still allow this user; remove those separately.</div>
+        <div class="hint" style="margin-bottom:10px;">Revoke removes the pairing approval. Other Hermes access rules or app variables may still allow this user; remove those separately.</div>
         <div class="empty-state" x-show="approved.length===0">No approved users yet.</div>
         <div class="card" style="padding:0;overflow:hidden;" x-show="approved.length>0">
           <table class="data-table">
@@ -1920,7 +1916,7 @@
         <div style="background:rgba(98,114,255,0.06);border:1px solid rgba(98,114,255,0.2);border-radius:8px;padding:12px 15px;margin-bottom:20px;font-size:13px;color:var(--text-dim);line-height:1.6;">
           <div style="margin-bottom:8px;">
             <code>main</code> always ships the <strong style="color:var(--text);">latest</strong> release — that is what you get by default.
-            To stay on a particular Hermes version, point your Railway service at that release's branch and redeploy.
+            To stay on a particular Hermes version, deploy that release's branch.
             Reverting the branch does not undo changes already made to the persistent volume; restore a pre-upgrade backup if its data must also be rolled back.
           </div>
           <div>
@@ -1949,7 +1945,7 @@
             <li>Updated <strong>Hermes Agent to v2026.9.24</strong> (from v2026.9.21). Browser Chat now lets you choose a workspace for a new session.</li>
             <li><strong>Hindsight memory is now a catalog plugin.</strong> This update does not delete your stored memory bank or saved settings. If Hindsight is configured, Setup shows a notice to check each affected profile. Install a missing plugin from the Hermes catalog for that profile, then test recall and retention. Embedded mode remains unavailable in this default root-running image.</li>
             <li><strong>Back up Hindsight data separately for rollback or cloning.</strong> The Hermes zip does not include external memory or embedded PostgreSQL under <code>/data/.pg0</code>; this existing limit is now explained on the Backup page.</li>
-            <li><strong>Bot Screen is not available in this Railway image.</strong> Browser Chat and its new workspace picker work here; the Desktop screen viewer needs a separate runtime and proxy integration.</li>
+            <li><strong>Bot Screen is not available in this image.</strong> Browser Chat and its new workspace picker work here; the Desktop screen viewer needs a separate runtime and proxy integration.</li>
             <li><strong>Old named-profile replies may need attention.</strong> Hermes now records new outgoing replies in the root ledger. Startup warns and continues when it finds an old unfinished reply; a sender can ask again, but that starts a new turn and may repeat tool actions. An unreadable ledger still stops the upgrade.</li>
             <li><strong>Use full IDs in hand-written allowlists.</strong> A short entry like <code>alice</code> no longer grants access to <code>alice@example.com</code>; users approved in this panel already have full IDs.</li>
           </ul>
@@ -2102,7 +2098,7 @@
 
           <div class="changelog-group">Changes to support upstream updates</div>
           <ul class="changelog-list">
-            <li><strong>The Hermes dashboard keeps working — and MCP tool sign-ins now work too.</strong> Hermes now treats a deployment that advertises a public web address as one that must have its own password, and shuts the dashboard down at startup when it doesn't. On Railway that address is filled in automatically, so Chat, Keys, Kanban and every other Hermes page would have shown &ldquo;Dashboard unavailable&rdquo; on every deploy — while this admin panel and the health check stayed perfectly green. That same address is what Hermes uses to send you back after approving an MCP tool login, so simply dropping it would have quietly broken those. Instead, the Hermes dashboard now has its own password — set automatically from your admin login — and this template signs in for you behind the scenes. <strong>You still sign in once, exactly as before.</strong></li>
+            <li><strong>The Hermes dashboard keeps working — and MCP tool sign-ins now work too.</strong> Hermes now treats a deployment that advertises a public web address as one that must have its own password, and shuts the dashboard down at startup when it doesn't. Where that address is filled in automatically, Chat, Keys, Kanban and every other Hermes page would have shown &ldquo;Dashboard unavailable&rdquo; on every deploy — while this admin panel and the health check stayed perfectly green. That same address is what Hermes uses to send you back after approving an MCP tool login, so simply dropping it would have quietly broken those. Instead, the Hermes dashboard now has its own password — set automatically from your admin login — and this template signs in for you behind the scenes. <strong>You still sign in once, exactly as before.</strong></li>
             <li><strong>The sign-in page moved to <code>/setup/login</code>.</strong> Old links still work. If you had bookmarked the login page directly, it will redirect you.</li>
             <li><strong>Restoring a backup works again.</strong> Hermes started leaving three more folders out of backups. Our safety check didn't know that and could refuse a perfectly good archive with &ldquo;couldn't create a complete safety snapshot&rdquo;, blocking the restore entirely.</li>
             <li><strong>The bot can no longer switch itself off.</strong> Hermes relaxed the rule that stopped the agent shutting down its own gateway, so a stray instruction could take the bot offline. This template now identifies itself as the supervisor, which restores the block.</li>
@@ -2132,7 +2128,7 @@
           <div class="changelog-group">Hermes update</div>
           <ul class="changelog-list">
             <li>Updated <strong>Hermes Agent to v2026.8.13</strong> (from v2026.8.3) — adds a community plugin catalogue, review workflows on the Kanban board, and a new <strong>Actual Computer</strong> provider, now selectable in Setup.</li>
-            <li><strong>Fewer out-of-memory restarts.</strong> Hermes now reads the memory limit your Railway plan gives the container and drops the oldest cached conversations before it hits it, instead of being killed and restarted.</li>
+            <li><strong>Fewer out-of-memory restarts.</strong> Hermes now reads the memory limit the app is given and drops the oldest cached conversations before it hits it, instead of being killed and restarted.</li>
             <li><strong>Reading PDFs and Office files works.</strong> Send the bot a PDF, Word, Excel or PowerPoint file and it can now read the contents. The reader is built into the image, so it works on the first try and keeps working after every redeploy.</li>
           </ul>
 
@@ -2269,43 +2265,6 @@
       </div>
     </div>
 
-    <!-- ── Other Templates panel ───────────────────── -->
-    <div class="panel" :class="{active: page==='templates'}">
-      <div class="panel-header">
-        <div class="panel-title">Other Templates</div>
-        <div class="panel-subtitle">Deploy more AI agents on Railway</div>
-      </div>
-      <div class="panel-body">
-        <p style="font-size:13px;color:var(--text-dim);margin-bottom:18px;">
-          Explore other AI agent templates you can deploy on Railway with one click.
-        </p>
-
-        <div class="template-grid">
-
-          <div class="template-card">
-            <div class="template-card-name">OpenClaw</div>
-            <div class="template-card-desc">
-              Self-hosted OpenClaw agent — deploy and manage your own OpenClaw instance on Railway.
-            </div>
-            <a class="btn primary" href="https://railway.com/deploy/self-host-openclaw?referralCode=QXdhdr&utm_medium=integration&utm_source=template&utm_campaign=generic" target="_blank" rel="noopener">
-              Deploy on Railway
-            </a>
-          </div>
-
-          <div class="template-card">
-            <div class="template-card-name">Paperclip</div>
-            <div class="template-card-desc">
-              Paperclip AI Company — deploy your own Paperclip AI agent instance on Railway.
-            </div>
-            <a class="btn primary" href="https://railway.com/deploy/paperclip-ai-company?referralCode=QXdhdr&utm_medium=integration&utm_source=template&utm_campaign=generic" target="_blank" rel="noopener">
-              Deploy on Railway
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
   </div><!-- #main -->
 </div><!-- #layout -->
 
@@ -2358,7 +2317,7 @@ function app() {
     savedConfigComplete: false,
     // Hermes release this image pins, reported by the server (HERMES_REF).
     // Never hardcoded here — it must stay correct when a deployment is pinned
-    // to an older release via the Railway variable.
+    // to an older release via the HERMES_REF variable.
     hermesVersion: '',
 
     tools,
@@ -2401,7 +2360,7 @@ function app() {
         keyLabel: '9Router Endpoint API Key', placeholder: 'Paste the key from your 9Router dashboard',
         keyHint: 'Create or copy an endpoint key from the 9Router dashboard.',
         baseUrlPlaceholder: 'https://your-9router.example.com/v1',
-        baseUrlHint: 'Enter the reachable OpenAI-compatible URL ending in /v1. From Railway, prefer the router service’s private URL instead of localhost. ',
+        baseUrlHint: 'Enter the reachable OpenAI-compatible URL ending in /v1. Use an address this app can reach, not localhost. ',
         modelPlaceholder: 'e.g. cc/claude-sonnet-4-6 or a combo name',
         modelHint: 'Use an exact model or combo shown by 9Router’s /v1/models endpoint.',
         docsUrl: 'https://docs.9router.com/',
@@ -2412,7 +2371,7 @@ function app() {
         keyLabel: 'OmniRoute Endpoint API Key', placeholder: 'Paste the key from Dashboard → Endpoints',
         keyHint: 'Create or copy an endpoint key from OmniRoute Dashboard → Endpoints.',
         baseUrlPlaceholder: 'https://your-omniroute.example.com/v1',
-        baseUrlHint: 'Enter the reachable OpenAI-compatible URL ending in /v1. From Railway, prefer the router service’s private URL instead of localhost. ',
+        baseUrlHint: 'Enter the reachable OpenAI-compatible URL ending in /v1. Use an address this app can reach, not localhost. ',
         modelPlaceholder: 'auto (recommended) or an exact model/combo',
         modelHint: '“auto” uses OmniRoute’s smart routing; you can also enter an exact model or combo.',
         docsUrl: 'https://github.com/diegosouzapw/OmniRoute#-quick-start',

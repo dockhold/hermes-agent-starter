@@ -67,8 +67,8 @@ jobs:
           To merge:
 
           1. \`git fetch ${UPSTREAM} main 'release/*:refs/remotes/upstream/release/*'\`, then merge upstream \`main\` (or the newest release branch if it is not on \`main\` yet) into a new branch here.
-          2. Read the upstream CHANGELOG entry for the new version. Look for anything that touches \`/data\`, \`start.sh\`, the admin password, \`RAILWAY_PUBLIC_DOMAIN\` or the pairing store, since \`dockhold/entrypoint.sh\` depends on those.
-          3. Keep the two Dockhold lines at the end of the \`Dockerfile\` and the Dockhold section at the top of the README.
+          2. Read the upstream CHANGELOG entry for the new version. Look for anything that touches \`/data\`, \`start.sh\`, the admin password, the public address variable or the pairing store, since \`dockhold/entrypoint.sh\` depends on those.
+          3. Keep this starter's own README, the two Dockhold lines at the end of the \`Dockerfile\`, and the admin panel edits listed in \`dockhold/CHANGELOG.md\`. Upstream files for other hosts stay out of this repository.
           4. Push the branch; the Dockhold check builds the image and runs \`dockhold/smoke.sh\`.
           5. Test the upgrade on a populated install with a backup downloaded first.
           6. Add an entry to \`dockhold/CHANGELOG.md\`, then merge.
