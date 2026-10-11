@@ -9,8 +9,8 @@
 # app's public address, and then hands over to the template's own start.sh.
 # It never prints a secret value.
 #
-# Every check below fails with one line and exit code 1. Dockhold shows that
-# line on the app page, so the line is the whole error message.
+# Every check below fails with one line and exit code 1. That line is the
+# last thing in the app's logs, so it is the whole error message.
 set -eu
 
 # 1. App storage.

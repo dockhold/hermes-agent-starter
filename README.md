@@ -14,7 +14,7 @@
 6. Pick a model provider, paste its API key and enter a model ([OpenRouter](https://openrouter.ai/) has free models). Tick **Telegram**, paste the bot token from [@BotFather](https://t.me/BotFather), and click **Save & Start**.
 7. Send your bot a message. The request appears under **Users** in the admin panel. Click **Approve**, and the bot answers you from then on.
 
-If the app refuses to start, its page shows one line saying what is missing. App storage is on the app's **Size** tab. Secrets are attached on its **Variables** tab, and their values are edited under **Secrets** in the dashboard sidebar. Fix it and click **Restart**.
+If the app refuses to start, its logs on the app's **Activity** tab show one line saying what is missing. App storage is on the app's **Size** tab. Secrets are attached on its **Variables** tab, and their values are edited under **Secrets** in the dashboard sidebar. Fix it and click **Restart**.
 
 ### What is different from the template
 
